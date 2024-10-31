@@ -1,0 +1,78 @@
+{
+    "assignments": [
+      {
+        "summary": "HW1 Due",
+        "description": "Computer Networks Homework 1 Due Date",
+        "start": {
+          "date": "2024-09-25"
+        },
+        "end": {
+          "date": "2024-09-25"
+        }
+      },
+      {
+        "summary": "MP Team Due",
+        "description": "Mini Project Team Submission Due",
+        "start": {
+          "date": "2024-10-02"
+        },
+        "end": {
+          "date": "2024-10-02"
+        }
+      },
+      {
+        "summary": "HW2 Due",
+        "description": "Computer Networks Homework 2 Due Date",
+        "start": {
+          "date": "2024-10-09"
+        },
+        "end": {
+          "date": "2024-10-09"
+        }
+      },
+      {
+        "summary": "MP1 Due",
+        "description": "Mini Project 1 Submission Due",
+        "start": {
+          "date": "2024-10-23"
+        },
+        "end": {
+          "date": "2024-10-23"
+        }
+      }
+    ],
+    "quizzes": [
+      {
+        "summary": "Quiz 1 - DNS",
+        "description": "Quiz covering DNS topics (10:30-11:20am)",
+        "start": {
+          "date": "2024-09-25"
+        },
+        "end": {
+          "date": "2024-09-25"
+        }
+      },
+      {
+        "summary": "Quiz 2 - Reliable Data Transfer",
+        "description": "Quiz covering Reliable Data Transfer (10:30-11:20am)",
+        "start": {
+          "date": "2024-10-09"
+        },
+        "end": {
+          "date": "2024-10-09"
+        }
+      }
+    ],
+    "exams": [
+      {
+        "summary": "Midterm Exam",
+        "description": "90 Minutes covering Introduction, Application & Transport Layers (10:30am-12:00pm)",
+        "start": {
+          "date": "2024-10-28"
+        },
+        "end": {
+          "date": "2024-10-28"
+        }
+      }
+    ]
+  }

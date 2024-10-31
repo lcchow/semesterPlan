@@ -8,6 +8,7 @@ import Summary from './pages/Summary'
 import { GoogleLogin, useGoogleLogin, googleLogout } from '@react-oauth/google'
 import { Button } from '@mui/material'
 import axios from 'axios'
+import NavBar from "./components/NavBar";
 
 function App() {
   const [user, setUser] = useState(null)
@@ -63,7 +64,7 @@ function App() {
   return (
     <>
       
-      { userProfile ? (
+      {/* { userProfile ? (
         <div>
           <h3>Logged in as: {userProfile.name}, {userProfile.email}</h3>
         
@@ -82,8 +83,9 @@ function App() {
             error => { console.log("Login Failed:", error) }
           }
         />
-      )}
+      )} */}
 
+      <NavBar />
       <RouterProvider router={router} />
     </>
   )

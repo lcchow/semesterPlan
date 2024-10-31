@@ -11,8 +11,7 @@ export default function Home() {
 
     return (
         <>
-            <NavBar></NavBar>
-            <div>
+            <div className="flex flex-col items-center justify-center">
                 <h1 className="text-5xl">Home Page</h1>
 
                 <FileDragDrop />
