@@ -1,52 +1,54 @@
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Home from './pages/Home'
 import Summary from './pages/Summary'
 import { GoogleLogin, useGoogleLogin, googleLogout } from '@react-oauth/google'
 import { Button } from '@mui/material'
 import axios from 'axios'
+import GoogleLoginButton from './components/GoogleLoginButton'
 import NavBar from "./components/NavBar";
 
 function App() {
-  const [user, setUser] = useState(null)
-  const [userProfile, setUserProfile] = useState(null)
+  const [user, setUser] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
+  const [token, setToken] = useState(null);
 
-  const login = useGoogleLogin({
-    onSuccess: (response) => setUser(response),
-    onError: (error) => console.log("Login Error:", error)
-  })
+  // const login = useGoogleLogin({
+  //   onSuccess: (response) => setUser(response),
+  //   onError: (error) => console.log("Login Error:", error)
+  // })
 
   const logout = () => {
-    googleLogout()
-    console.log("Logout successful")
-    setUserProfile(null)
-    setUser(null)
+    googleLogout();
+    console.log("Logout successful");
+    setUserProfile(null);
+    setUser(null);
+    setToken(null);
     
   }
 
-  useEffect (
-    () => {
-      if (user) {
-        console.log("USER:", user)
-        axios
-          .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.credential}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.accesstoken}`,
-              Accept: 'application/json'
-            }
-          })
-          .then ((response) => {
-            setUserProfile(response.data)
-          })
-          .catch((error) => console.log(error))
+  const getUserInfo = async (token) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/userinfo', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token }), // Send token in the request body
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
       }
-    },
-    [user]
-  )
+
+      const userInfo = await response.json();
+      console.log("User Information:", userInfo);
+      return userInfo;
+  } catch (error) {
+      console.error("Error fetching user info:", error);
+  }
+};
 
   //React Router
   const router = createBrowserRouter([
@@ -63,27 +65,11 @@ function App() {
 
   return (
     <>
-      
-      {/* { userProfile ? (
-        <div>
-          <h3>Logged in as: {userProfile.name}, {userProfile.email}</h3>
-        
-
-          <Button onClick={logout}>Log Out</Button>
-        </div>
-      ) : (
-        <GoogleLogin
-          onSuccess= { 
-          loginResponse => { 
-            console.log("Login Successful:",loginResponse)
-            setUser(loginResponse)
-          }
-          }
-          onError={
-            error => { console.log("Login Failed:", error) }
-          }
-        />
-      )} */}
+      <div>
+        <GoogleLoginButton setToken={setToken} />
+        {/* <GoogleLoginButton setToken={setToken} setUser={setUser} getUserInfo={getUserInfo}/> */}
+        {/* {token && <Button onClick={logout}>Log Out</Button>} */}
+      </div>
 
       <NavBar />
       <RouterProvider router={router} />
