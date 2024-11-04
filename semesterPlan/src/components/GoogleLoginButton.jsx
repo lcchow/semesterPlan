@@ -3,17 +3,21 @@ import { Button } from '@mui/material'
 import axios from 'axios'
 
 const GoogleLoginButton = ({ setToken, setUser, getUserInfo }) => {
+
+    const scopes = "https://www.googleapis.com/auth/calendar.readonly";
+
+    // User google login and get access token
     const googleLogin = useGoogleLogin({
         onSuccess: async ({ code }) => {
           const tokens = await axios.post('http://localhost:5000/auth/google', { 
             code,
           });
       
-          console.log(tokens);
           setToken(tokens.data.access_token);
-          console.log(tokens.data.access_token);
+          getUserInfo(tokens.data.access_token);
         },
         flow: 'auth-code',
+        scope: scopes,  // scope of google acccess
       });
 
     return (

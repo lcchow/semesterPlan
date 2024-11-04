@@ -24,7 +24,7 @@ router.post('/auth/google/refresh-token', async (req, res) => {
         clientSecret,
         req.body.refreshToken,
     );
-    const { credentials } = await user.refreshAccessToken(); // optain new tokens
+    const { credentials } = await user.refreshAccessToken(); // obtain new access token
     res.json(credentials);
 })
 

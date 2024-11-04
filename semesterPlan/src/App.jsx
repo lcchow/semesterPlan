@@ -11,18 +11,11 @@ import NavBar from "./components/NavBar";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [userProfile, setUserProfile] = useState(null);
   const [token, setToken] = useState(null);
-
-  // const login = useGoogleLogin({
-  //   onSuccess: (response) => setUser(response),
-  //   onError: (error) => console.log("Login Error:", error)
-  // })
 
   const logout = () => {
     googleLogout();
     console.log("Logout successful");
-    setUserProfile(null);
     setUser(null);
     setToken(null);
     
@@ -35,7 +28,7 @@ function App() {
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ token }), // Send token in the request body
+          body: JSON.stringify({ token }), // Send google access token
       });
 
       if (!response.ok) {
@@ -43,11 +36,37 @@ function App() {
       }
 
       const userInfo = await response.json();
+      
+      if (userInfo) {
+        setUser(userInfo);
+      }
+
       console.log("User Information:", userInfo);
-      return userInfo;
   } catch (error) {
       console.error("Error fetching user info:", error);
   }
+};
+
+// Get list of Google calendars owned by user
+const getCalendars = async (e) => {
+  try {
+    const response = await fetch('http://localhost:5000/calendar/list', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const calendars = await response.json();
+    console.log("Calendars:", calendars);
+} catch (error) {
+    console.error("Error fetching user calendars:", error);
+}
 };
 
   //React Router
@@ -66,10 +85,11 @@ function App() {
   return (
     <>
       <div>
-        <GoogleLoginButton setToken={setToken} />
-        {/* <GoogleLoginButton setToken={setToken} setUser={setUser} getUserInfo={getUserInfo}/> */}
-        {/* {token && <Button onClick={logout}>Log Out</Button>} */}
+        {!user && <GoogleLoginButton setToken={setToken} getUserInfo={getUserInfo} />}
+        {user && <Button onClick={logout}>Log Out</Button>}
       </div>
+
+      <Button onClick={getCalendars}>CALENDARS</Button>
 
       <NavBar />
       <RouterProvider router={router} />
