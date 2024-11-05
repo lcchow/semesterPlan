@@ -1,0 +1,14 @@
+{
+    "events": [
+      {
+        "summary": "HW1 Due",
+        "description": "Computer Networks Homework 1 Due Date",
+        "start": {
+          "date": "2024-09-25"
+        },
+        "end": {
+          "date": "2024-09-25"
+        }
+      }
+    ]
+  }

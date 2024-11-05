@@ -1,10 +1,12 @@
 import { GoogleLogin, useGoogleLogin, googleLogout } from '@react-oauth/google'
 import { Button } from '@mui/material'
 import axios from 'axios'
+import { useAppContext } from '../AppProvider';
 
-const GoogleLoginButton = ({ setToken, setUser, getUserInfo }) => {
+const GoogleLoginButton = ({ getUserInfo }) => {
+    const { setToken } = useAppContext();
 
-    const scopes = "https://www.googleapis.com/auth/calendar.readonly";
+    const scopes = "https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events";
 
     // User google login and get access token
     const googleLogin = useGoogleLogin({

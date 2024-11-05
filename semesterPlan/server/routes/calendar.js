@@ -23,6 +23,39 @@ router.get('/events', async (req, res) => {
     }
 });
 
+router.post('/create_event', async (req, res) => {
+    const token  = req.headers.authorization?.split(' ')[1];
+    const events = req.body;
+
+    if (!token) {
+        return res.status(401).send({error: 'Missing or invalid access token'});
+    }
+
+    console.log("BACKEND:", events);
+    try {
+        const oAuth2Client = new google.auth.OAuth2();
+        oAuth2Client.setCredentials({access_token: token});
+
+        const calendar = google.calendar({version:"v3", auth: oAuth2Client});
+        const eventsAdded = [];
+
+        for (const event of events) {
+            const response = await calendar.events.insert({
+                calendarId: 'primary',
+                resource: event
+            });
+            
+            console.log("GOOGLE ADD EVENT RESPONSE:", response.data);
+            eventsAdded.push(response.data);
+        }
+        res.json(eventsAdded);
+    } catch (error) {
+        console.error("Error fetching calendar events:", error);
+        res.status(500).send('Error fetching data');
+    }
+});
+
+
 router.get('/list', async (req, res) => {
     // Get google acess token from request
     const token = req.headers.authorization?.split(' ')[1];

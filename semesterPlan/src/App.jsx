@@ -1,26 +1,18 @@
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
-import { useState, useEffect } from 'react'
+import { createBrowserRouter, createRoutesFromElements, Navigate, RouterProvider, Route} from "react-router-dom";
+import { useState, useEffect, useContext } from 'react'
 import './App.css'
 import Home from './pages/Home'
 import Summary from './pages/Summary'
 import { GoogleLogin, useGoogleLogin, googleLogout } from '@react-oauth/google'
 import { Button } from '@mui/material'
+import { useAppContext } from './AppProvider';
 import axios from 'axios'
 import GoogleLoginButton from './components/GoogleLoginButton'
 import NavBar from "./components/NavBar";
 import AddEventModal from "./components/Modal";
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-
-  const logout = () => {
-    googleLogout();
-    console.log("Logout successful");
-    setUser(null);
-    setToken(null);
-    
-  }
+  const { token, setToken, user, setUser, logout } = useAppContext();
 
   const getUserInfo = async (token) => {
     try {
@@ -65,20 +57,20 @@ const getCalendars = async (e) => {
 
     const calendars = await response.json();
     console.log("Calendars:", calendars);
-} catch (error) {
+  } catch (error) {
     console.error("Error fetching user calendars:", error);
-}
+  }
 };
 
   //React Router
   const router = createBrowserRouter([
-    {
+      {
       path: "/",
       element: <Home />,
     }, 
     {
       path: "/summary",
-      element: <Summary />,
+      element: <Summary/>,
     }, 
 
   ])
@@ -86,7 +78,7 @@ const getCalendars = async (e) => {
   return (
     <>
       <div>
-        {!user && <GoogleLoginButton setToken={setToken} getUserInfo={getUserInfo} />}
+        {!user && <GoogleLoginButton getUserInfo={getUserInfo} />}
         {user && <Button onClick={logout}>Log Out</Button>}
       </div>
 
@@ -94,6 +86,7 @@ const getCalendars = async (e) => {
 
       <NavBar />
       <RouterProvider router={router} />
+        
     </>
   )
 }

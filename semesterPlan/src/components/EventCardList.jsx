@@ -9,7 +9,7 @@ export default function EventCardList({ calendarData }) {
             {calendarData.map((event) => {
                 const date = event.start.date
                 return (<EventCard 
-                    key={event.id}
+                    key={event.summary+date}
                     title={event.summary}
                     date={date} 
                     description={event.description}
