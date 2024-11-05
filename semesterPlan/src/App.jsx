@@ -8,6 +8,7 @@ import { Button } from '@mui/material'
 import axios from 'axios'
 import GoogleLoginButton from './components/GoogleLoginButton'
 import NavBar from "./components/NavBar";
+import AddEventModal from "./components/Modal";
 
 function App() {
   const [user, setUser] = useState(null);
