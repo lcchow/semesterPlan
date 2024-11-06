@@ -1,13 +1,12 @@
 import FileDragDrop from "../components/FileDragDrop";
 import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Home() {
 
     
-    const LOCAL_HOST_URL = 'http://localhost:8000';
 
-    const [showModal, setShowModal] = useState(false);
 
     return (
         <>
@@ -17,15 +16,6 @@ export default function Home() {
                 <FileDragDrop />
             </div>
 
-
-
-        
         </>
-
-
-
-
     )
-
-
 }

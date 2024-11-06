@@ -16,7 +16,7 @@ function App() {
 
   const getUserInfo = async (token) => {
     try {
-      const response = await fetch('http://localhost:5000/api/userinfo', {
+      const response = await fetch('http://localhost:5000/user/userinfo', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',

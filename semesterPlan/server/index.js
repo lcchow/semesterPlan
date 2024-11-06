@@ -6,6 +6,7 @@ const {google} = require('googleapis');
 const calendarRoutes = require('./routes/calendar');
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
+const imageRoutes = require('./routes/image');
 
 dotenv.config();
 
@@ -16,8 +17,9 @@ app.use(cors());
 app.use(express.json());  
 
 app.use('/calendar', calendarRoutes);
-app.use('/api', userRoutes);
-app.use('/', authRoutes);
+app.use('/user', userRoutes);
+app.use('/auth', authRoutes);
+app.use('/image', imageRoutes);
 
 app.get('/', (req, res) => {
     res.send('Testing backend');

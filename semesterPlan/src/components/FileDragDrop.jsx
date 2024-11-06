@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
+import axios from "axios";
 
 export default function FileDragDrop() {
 
@@ -33,6 +34,7 @@ export default function FileDragDrop() {
 
             if (validFileTypes.includes(file.type)) {
                 setFile(file);
+                setError('');
                 console.log("File Uploaded:", file);
             } else {
                 console.log("Upload Failed: Invalid file type.")
@@ -46,9 +48,65 @@ export default function FileDragDrop() {
         event.preventDefault();
     }
 
+    const handleImageSubmit = async (imageFile) => {
+        const reader = new FileReader();
+
+        if (!imageFile) return;
+
+        const formData = new FormData();
+        formData.append('image', imageFile);
+
+        try {
+            const response = await axios.post('http://localhost:5000/image/read-image', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            
+            setFile(null);
+
+            
+            console.log('Read Image Response:', response);
+        } catch (error) {
+            console.error('Error reading image:', error);
+        }
+    };
+
+    const handleCancel = () => {
+        setFile(null);
+    }
+
+    const handleSubmit = () => {
+        handleImageSubmit(file);
+    }
+
+
+
     return (
-        <>
-            <div 
+        <>  
+            {file && 
+                <div 
+                    className = "flex items-center justify-center flex-col w-2/3 h-64 border-4 border-slate-300 border-dashed rounded-lg"
+                >   
+                    <p>File Uploaded: {file.name}</p>
+                    <div className="flex gap-4 m-4">
+                        <button 
+                            className="text-white py-2 px-4 rounded-lg border-0 bg-sky-500 font-bold hover:bg-sky-300 hover:cursor-pointer"
+                            onClick={handleSubmit}
+                        > 
+                            Submit 
+                        </button>
+
+                        <button 
+                            className="text-white py-2 px-4 rounded-lg border-0 bg-sky-500 font-bold hover:bg-sky-300 hover:cursor-pointer"
+                            onClick={handleCancel}
+                        > 
+                            Cancel 
+                        </button>
+                    </div>
+                </div>
+            }
+            {!file && <div 
                 onDrop = {handleDrop} 
                 onDragOver = {handleDragOver}
                 className = "flex items-center justify-center w-2/3 h-64 border-4 border-slate-300 border-dashed rounded-lg"
@@ -68,7 +126,7 @@ export default function FileDragDrop() {
                 </section>
                     
                 
-            </div>
+            </div>}
         </>
     )
 

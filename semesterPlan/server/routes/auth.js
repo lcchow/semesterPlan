@@ -11,14 +11,14 @@ process.env.GOOGLE_CLIENT_SECRET,
 );
 
 
-router.post('/auth/google', async (req, res) => {
+router.post('/google', async (req, res) => {
     const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
     console.log(tokens);
 
     res.json(tokens);
 });
 
-router.post('/auth/google/refresh-token', async (req, res) => {
+router.post('/google/refresh-token', async (req, res) => {
     const user = new UserRefreshClient(
         clientId,
         clientSecret,
