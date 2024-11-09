@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function FileDragDrop() {
 
     const [file, setFile] = useState(null);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [responseData, setResponseData] = useState(null);
     const validFileTypes = ["image/jpeg", "image/png", "image/jpg"]
+    const navigate = useNavigate();
 
     const handleFileChange = (event) => {
         if (event.target.files) {
@@ -53,20 +57,41 @@ export default function FileDragDrop() {
 
         if (!imageFile) return;
 
+        setLoading(true);
+
         const formData = new FormData();
         formData.append('image', imageFile);
 
         try {
-            const response = await axios.post('http://localhost:5000/image/read-image', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+            // const response = await axios.post('http://localhost:5000/image/read-image', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data'
+            //     }
+            // });
+            
+            // MOCK RESPONSE
+            const response = {data: [
+                {
+                  "type": "text",
+                  "text": "[\n  {\n    \"summary\": \"Weekly Activity Week 1: Technology and values\",\n    \"start\": {\"date\": \"2024-09-13\"},\n    \"end\": {\"date\": \"2024-09-13\"},\n    \"description\": \"Due by 11:59pm\"\n  },\n  {\n    \"summary\": \"Weekly Activity Week 2: Research Ethics I\",\n    \"start\": {\"date\": \"2024-09-16\"},\n    \"end\": {\"date\": \"2024-09-16\"},\n    \"description\": \"Due by 12pm\"\n  },\n  {\n    \"summary\": \"Online Activity Week 3: Research Ethics II\",\n    \"start\": {\"date\": \"2024-09-23\"},\n    \"end\": {\"date\": \"2024-09-23\"},\n    \"description\": \"Due by 12pm\"\n  },\n  {\n    \"summary\": \"Assignment 1 - Computing Science Research and Ethical Guidelines (5%)\",\n    \"start\": {\"date\": \"2024-09-26\"},\n    \"end\": {\"date\": \"2024-09-26\"},\n    \"description\": \"Due by 11:59pm\"\n  },\n  {\n    \"summary\": \"Online Activity Week 4: Information and Privacy\",\n    \"start\": {\"date\": \"2024-09-30\"},\n    \"end\": {\"date\": \"2024-09-30\"},\n    \"description\": \"Due by 12pm\"\n  },\n  {\n    \"summary\": \"Online Activity Week 5: Intellectual Property\",\n    \"start\": {\"date\": \"2024-10-07\"},\n    \"end\": {\"date\": \"2024-10-07\"},\n    \"description\": \"Due by 12pm\"\n  },\n  {\n    \"summary\": \"Online Activity: Intellectual Property\",\n    \"start\": {\"date\": \"2024-10-14\"},\n    \"end\": {\"date\": \"2024-10-14\"},\n    \"description\": \"Due by 12pm\"\n  },\n  {\n    \"summary\": \"Midterm Exam (25%)\",\n    \"start\": {\"dateTime\": \"2024-10-16T15:45:00-07:00\"},\n    \"end\": {\"dateTime\": \"2024-10-16T17:00:00-07:00\"},\n    \"description\": \"In-person in CSIL\"\n  }\n]"
                 }
-            });
-            
-            setFile(null);
+              ]}
 
-            
-            console.log('Read Image Response:', response);
+            //Reponse.data should be an array
+            if (Array.isArray(response.data) && response.data.length > 0) {
+                const calendarEvents = response.data[0];
+                
+                setResponseData(calendarEvents);
+                setFile(null);
+                console.log(calendarEvents);
+
+                navigate('/summary', {state: { data: calendarEvents }})
+                
+                console.log('Read Image API Response:', response);
+            } else {
+                console.error('Response data array does not contain elements'); 
+            }
+
         } catch (error) {
             console.error('Error reading image:', error);
         }

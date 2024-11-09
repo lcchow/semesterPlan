@@ -7,14 +7,15 @@ export default function EventCardList({ calendarData }) {
         <>
         <div className="flex flex-wrap max-h-[50vh] w-4/5 gap-4 overflow-y-auto content-start my-8">
             {calendarData.map((event) => {
-                const date = event.start.date
-                return (<EventCard 
-                    key={event.summary+date}
-                    title={event.summary}
-                    date={date} 
-                    description={event.description}
-                />)
-            })}
+                return (
+                    <EventCard 
+                        key={event.summary}
+                        title={event.summary}
+                        startObj={event.start}
+                        endObj={event.end} 
+                        description={event.description}
+                    />
+            )})}
         </div>
         </>
     )

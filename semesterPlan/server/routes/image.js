@@ -7,14 +7,13 @@ const FormData = require('form-data');
 const fs = require('fs');
 const sharp = require('sharp')
 
-
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
 const CLAUDE_SONNET_LATEST = 'claude-3-5-sonnet-20241022';
 const CLAUDE_SONNET_3 = "claude-3-sonnet-20240229"
 
-const PROMPT = "Please extract all assignment/homework deadlines and quiz/exam dates from this course schedule image. For each item, create a JSON object with summary, start, and end properties formatted for Google Calendar API. Use specific times when given, otherwise default to 11:59 PM PST for due dates. Format dates as ISO 8601 strings using America/Vancouver timezone."
-const PROMPT2 = "Extract only assignment and homework deadlines, quizzes and exam dates into this exact JSON format, using 23:59:00-07:00 for items without specific times. Include only these properties: summary, start.dateTime, end.dateTime. Times should be in America/Vancouver timezone:\n{\"items\": [{\"summary\": \"\", \"start\": {\"dateTime\": \"\"}, \"end\": {\"dateTime\": \"\"}}]}"
+const PROMPT = "Please extract all assignment/homework deadlines and quiz/exam dates from this course schedule image. For each item, create a JSON object with summary, start, end, and description properties formatted for the Google Calendar API. If the assignment, quiz, or exam has a specific time range, use that for start and end. Otherwise, treat it as an all-day event, and put the due time (if mentioned) in the description property. Format dates as ISO 8601 strings using the America/Vancouver timezone. Only send back the JSON objects."
+const PROMPT2 = "Extract only assignment/homework deadlines, and quiz/exam dates into this exact JSON format, using 23:59:00-07:00 for items without specific times. Only send back the JSON objects. Include only these properties: summary, start.dateTime, end.dateTime. Times should be in America/Vancouver timezone:\n{\"items\": [{\"summary\": \"\", \"start\": {\"dateTime\": \"\"}, \"end\": {\"dateTime\": \"\"}}]}"
 
 const anthropic = new Anthropic({
     apiKey: ANTHROPIC_API_KEY,
