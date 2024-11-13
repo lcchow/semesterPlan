@@ -3,8 +3,8 @@ import { Button } from '@mui/material'
 import axios from 'axios'
 import { useAppContext } from '../AppProvider';
 
-const GoogleLoginButton = ({ getUserInfo }) => {
-    const { setToken } = useAppContext();
+const GoogleLoginButton = () => {
+    const { setToken, setUser, getUserInfo } = useAppContext();
 
     const scopes = "https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events";
 

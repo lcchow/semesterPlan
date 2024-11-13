@@ -10,35 +10,13 @@ import axios from 'axios'
 import GoogleLoginButton from './components/GoogleLoginButton'
 import NavBar from "./components/NavBar";
 import AddEventModal from "./components/Modal";
+import ProtectedRoute from './pages/ProtectedRoute';
+import Login from './pages/Login';
 
 function App() {
   const { token, setToken, user, setUser, logout } = useAppContext();
 
-  const getUserInfo = async (token) => {
-    try {
-      const response = await fetch('http://localhost:5000/user/userinfo', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token }), // Send google access token
-      });
 
-      if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const userInfo = await response.json();
-      
-      if (userInfo) {
-        setUser(userInfo);
-      }
-
-      console.log("User Information:", userInfo);
-  } catch (error) {
-      console.error("Error fetching user info:", error);
-  }
-};
 
 // Get list of Google calendars owned by user
 const getCalendars = async (e) => {
@@ -64,13 +42,26 @@ const getCalendars = async (e) => {
 
   //React Router
   const router = createBrowserRouter([
-      {
+    {
       path: "/",
-      element: <Home />,
+      element: <Login />,
+    }, 
+    {
+      path: "/home",
+      element: (
+        <ProtectedRoute 
+          element={<Home />}
+        />
+      )
     }, 
     {
       path: "/summary",
-      element: <Summary/>,
+      element: (
+        <ProtectedRoute 
+          element={<Summary />}
+        />
+
+      ),
     }, 
 
   ])
@@ -78,7 +69,7 @@ const getCalendars = async (e) => {
   return (
     <>
       <div>
-        {!user && <GoogleLoginButton getUserInfo={getUserInfo} />}
+        {/* {!user && <GoogleLoginButton />} */}
         {user && <Button onClick={logout}>Log Out</Button>}
       </div>
 
