@@ -32,18 +32,21 @@ export default function FileDragDrop() {
     function handleDrop(event) {
         // NEED TO CHECK IF PROPER FILE TYPE
         event.preventDefault();
-        const files = event.dataTransfer.files;
-        if (files.length >= 1) {
-            const file = files[0];
+        
+        if (!file) {
+            const files = event.dataTransfer.files;
+            if (files.length >= 1) {
+                const file = files[0];
 
-            if (validFileTypes.includes(file.type)) {
-                setFile(file);
-                setError('');
-                console.log("File Uploaded:", file);
-            } else {
-                console.log("Upload Failed: Invalid file type.")
-                setFile(null);
-                setError("Invalid file type. Please upload a JPEG, JPG, or PNG file.")
+                if (validFileTypes.includes(file.type)) {
+                    setFile(file);
+                    setError('');
+                    console.log("File Uploaded:", file);
+                } else {
+                    console.log("Upload Failed: Invalid file type.")
+                    setFile(null);
+                    setError("Invalid file type. Please upload a JPEG, JPG, or PNG file.")
+                }
             }
         }
     }
@@ -109,49 +112,50 @@ export default function FileDragDrop() {
 
     return (
         <>  
-            {file && 
-                <div 
-                    className = "flex items-center justify-center flex-col w-2/3 h-64 border-4 border-slate-300 border-dashed rounded-lg"
-                >   
-                    <p>File Uploaded: {file.name}</p>
-                    <div className="flex gap-4 m-4">
-                        <button 
-                            className="text-white py-2 px-4 rounded-lg border-0 bg-sky-500 font-bold hover:bg-sky-300 hover:cursor-pointer"
-                            onClick={handleSubmit}
-                        > 
-                            Submit 
-                        </button>
-
-                        <button 
-                            className="text-white py-2 px-4 rounded-lg border-0 bg-sky-500 font-bold hover:bg-sky-300 hover:cursor-pointer"
-                            onClick={handleCancel}
-                        > 
-                            Cancel 
-                        </button>
-                    </div>
-                </div>
-            }
-            {!file && <div 
+            <div 
                 onDrop = {handleDrop} 
                 onDragOver = {handleDragOver}
-                className = "flex items-center justify-center w-2/3 h-64 border-4 border-slate-300 border-dashed rounded-lg"
+                className = "flex items-center justify-center w-10/12 h-3/4 border-4 border-slate-300 border-dashed rounded-lg"
             >
+                {file && 
+                    <>
+                        <p>File Uploaded: {file.name}</p>
+                        <div className="flex gap-4 m-4">
+                            <button 
+                                className="text-white py-2 px-4 rounded-lg border-0 bg-sky-500 font-bold hover:bg-sky-300 hover:cursor-pointer"
+                                onClick={handleSubmit}
+                            > 
+                                Submit 
+                            </button>
 
-                <section className="flex flex-col items-center space-y-1 text-slate-500 font-sans">
-                    <CloudArrowUpIcon className="size-24" />
-                    <p className="text-xl font-bold">Drag and drop to upload</p>
-                    <p className="text-xl font-bold">or</p>
-                    <input type="file" id ="fileUploadBtn"
-                        className="hidden" onChange={handleFileChange} />
-                    <label htmlFor="fileUploadBtn"
-                        className="text-white py-2 px-4 rounded-lg border-0 bg-sky-500 font-bold hover:bg-sky-300 hover:cursor-pointer" >
-                        Browse
-                    </label>
-                    {error && <p className="text-red-600">{error}</p>}
-                </section>
+                            <button 
+                                className="text-white py-2 px-4 rounded-lg border-0 bg-sky-500 font-bold hover:bg-sky-300 hover:cursor-pointer"
+                                onClick={handleCancel}
+                            > 
+                                Cancel 
+                            </button>
+                        </div>
+                    </>
                     
-                
-            </div>}
+                }
+                {!file && 
+                    <>
+                    <section className="flex flex-col items-center space-y-1 text-slate-500 font-sans">
+                        <CloudArrowUpIcon className="size-24" />
+                        <p className="text-xl font-bold">Drag and drop to upload</p>
+                        <p className="text-xl font-bold">or</p>
+                        <input type="file" id ="fileUploadBtn"
+                            className="hidden" onChange={handleFileChange} />
+                        <label htmlFor="fileUploadBtn"
+                            className="text-white py-2 px-4 rounded-lg border-0 bg-sky-500 font-bold hover:bg-sky-300 hover:cursor-pointer" >
+                            Browse
+                        </label>
+                        {error && <p className="text-red-600">{error}</p>}
+                    </section>
+                        </>
+                    
+                }
+            </div>
         </>
     )
 

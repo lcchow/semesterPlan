@@ -1,21 +1,21 @@
 import { useAppContext } from '../AppProvider';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import { Button } from '@mui/material';
+import PageCard from '../components/PageCard';
 
 export default function Login() {
     const { token, setToken, user, setUser, logout } = useAppContext();
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center">
-                <h1 className="text-5xl">Login</h1>
+            <PageCard className="w-4/12 h-1/2">
+                <h1 className="text-2xl font-bold mb-10">Sign in to get started</h1>
 
-                <div>
+                <div className="flex justify-center w-full">
                     {!user && <GoogleLoginButton />}
-                    {user && <Button onClick={logout}>Log Out</Button>}
+                    {user && <button onClick={logout}>Log Out</button>}
                 </div>
-
-            </div>
+            </PageCard>
         </>
     );
 }

@@ -7,7 +7,7 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
-    console.log("APP PROVIDER",token);
+    console.log("APP PROVIDER TOKEN RECEIVED:",token);
 
     useEffect(() => {
         if (token) {
@@ -53,6 +53,7 @@ export const AppProvider = ({ children }) => {
         user,
         setUser,
         logout,
+        getUserInfo,
     };
 
     return (
