@@ -13,7 +13,7 @@ export default function EventCard({title, startObj, endObj, description, isOddRo
     const day = format(start, DAY_FORMAT);
 
     const lightBgColour = "bg-sky-200";
-    const darkBgColour = "bg-sky-600";
+    const darkBgColour = "bg-sky-700";
     const lightTextColor = "text-white"
     const darkTextColor = "text-slate-600"
 
@@ -27,7 +27,7 @@ export default function EventCard({title, startObj, endObj, description, isOddRo
 
     return (
         <>
-            <div className={`flex flex-col w-60 h-60 ${bgColour} ${textColour} shadow-md border border-black-200 rounded-md  p-5 text-left`}>
+            <div className={`flex flex-col w-60 h-60 ${bgColour} ${textColour} shadow border border-black-200 rounded-md  p-5 text-left`}>
                 <div className="flex-grow">
 
                         <p className=" font-medium text-sm">
