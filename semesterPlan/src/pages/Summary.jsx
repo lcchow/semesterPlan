@@ -8,7 +8,9 @@ import EventCardList from "../components/EventCardList";
 import { PlusCircleIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
 import Modal from "../components/Modal";
 import { useAppContext } from '../AppProvider';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import PageCard from "../components/PageCard";
+import Btn from "../components/Btn";
 
 export default function Summary() {
     const [calendarData, setCalendarData] = useState(null);
@@ -17,6 +19,7 @@ export default function Summary() {
 
     const location = useLocation()
     const responseData = location.state?.data;
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (responseData.text) {
@@ -53,6 +56,9 @@ export default function Summary() {
                 }
             
                 console.log("Events Submitted:", response);
+
+                setCalendarData(null);
+                navigate('/home')
             
         } catch (error) {
           console.error("Error adding events:", error);
@@ -65,7 +71,7 @@ export default function Summary() {
         <>
 
             {calendarData ? (
-                <div>
+                <>
                     <Modal
                         isModalOpen={isModalOpen}
                         closeModal={() => setIsModalOpen(false)}
@@ -93,27 +99,31 @@ export default function Summary() {
                         </button>
                     </Modal>
 
-                    <div className="flex flex-col items-center m-5 mt-8 rounded-lg">
-                        <button 
-                            className="flex w-64 justify-center align-middle gap-2 text-white py-2 px-4 rounded-lg border-0 bg-sky-500 font-bold hover:bg-sky-300"
-                            onClick={() => setIsModalOpen(true)}
-                        >
-                            <PlusCircleIcon className="size-6"/>
-                            Add additional events
-                        </button>
+    
+                    <PageCard className="flex flex-col items-center w-11/12 h-full p-6 rounded-lg">
+
+                        <h1 className="font-bold text-2xl text-slate-700">Calendar events created from image:</h1>
 
                         <EventCardList 
                             calendarData = {calendarData} 
                         />
 
-                        <button 
+                        <Btn 
+                            className="flex w-64 justify-center align-middle mb-5 text-white py-2 px-4 rounded-lg border-0 bg-sky-500 font-bold hover:bg-sky-300"
+                            onClick={() => setIsModalOpen(true)}
+                        >
+                            <PlusCircleIcon className="size-6 mr-2"/>
+                            Add additional events
+                        </Btn>
+
+                        <Btn 
                             className="flex w-64 justify-center align-middle gap-2 text-white py-2 px-4 rounded-lg border-0 bg-sky-500 font-bold hover:bg-sky-300"
                             onClick={handleSubmit}
                         >
                             Submit
-                        </button>
-                    </div>
-                </div>
+                        </Btn>
+                    </PageCard>
+                </>
             ) : (
                 <p>Loading calendar data...</p>
             )}

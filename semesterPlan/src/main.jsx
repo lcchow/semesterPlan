@@ -34,7 +34,8 @@ const router = createBrowserRouter([
       }, 
       {
         path: "/summary",
-        element: (<ProtectedRoute element={<Summary />}/>),
+        element:< Summary/>
+        // element: (<ProtectedRoute element={<Summary />}/>),
       }, 
     ]
   }
@@ -45,9 +46,7 @@ createRoot(document.getElementById('root')).render(
   <GoogleOAuthProvider clientId={clientId}>
     <StrictMode>
       <AppProvider>
-          <RouterProvider router={router}>
-            <App />
-          </RouterProvider>
+          <RouterProvider router={router} />
       </AppProvider>
     </StrictMode>
   </GoogleOAuthProvider>

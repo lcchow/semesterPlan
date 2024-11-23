@@ -18,7 +18,7 @@ export default function NavBar() {
 
     return (
       <>
-      <div className="flex bg-sky-500  text-white h-14 items-center px-9 w-full">
+      <div className="flex bg-sky-600 text-white h-14 items-center px-9 w-full">
         <div className="flex ml-auto gap-3 h-full">
           <Btn onClick={onHome}>Home</Btn>
 
