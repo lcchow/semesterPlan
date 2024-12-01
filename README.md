@@ -3,7 +3,7 @@
 </div>
 
 # About the Project
-Semester Plan is a web application tool to help make organizing your school semeseter more efficient. Users can upload a screenshot of their course syllabus/outline with deadlines for assignments, exams and quizzes. Semester Plan will help automate the process of adding Google Calendar events for these deadlines to help you stay on top of your deadlines and be organized.
+Semester Plan is a web application tool to help make organizing your school semester more efficient. Users can upload a screenshot of their course syllabus/outline with deadlines for assignments, exams and quizzes. Semester Plan will help automate the process of adding Google Calendar events for these deadlines to help you stay on top of your deadlines and be organized.
 
 ### Tech Stack
 
