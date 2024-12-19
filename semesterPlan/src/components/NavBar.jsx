@@ -19,6 +19,9 @@ export default function NavBar() {
     return (
       <>
       <div className="flex bg-sky-600 text-white h-14 items-center px-9 w-full">
+        <div>
+          <h1 className="font-bold text-2xl">Semester Plan</h1>
+        </div>
         <div className="flex ml-auto gap-3 h-full">
           <Btn onClick={onHome}>Home</Btn>
 
@@ -27,23 +30,6 @@ export default function NavBar() {
         </div>
       </div>
       </>
-        // <Box>
-        // <AppBar position="static">
-        //   <Toolbar>
-        //     <MenuItem>Item1</MenuItem>
-        //     <MenuItem>Item2</MenuItem>
-        //     <MenuItem>Item3</MenuItem>
-        //     <Typography variant="h6" component="div">
-        //       News
-        //     </Typography>
-          
-        //       <div>
-        //         {!user && <button onClick={onLogin} className="text-white">Login</button>}
-        //         {user && <button onClick={logout} className="text-white">Log Out</button>}
-        //       </div>
-        //   </Toolbar>
-        // </AppBar>
-        // </Box>
 
     )
 }
