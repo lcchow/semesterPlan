@@ -29,7 +29,7 @@ const GoogleLoginButton = () => {
       });
 
     return (
-        <Btn onClick={() => googleLogin()} className="font-bold w-3/4">Sign in with Google 🚀</Btn>
+        <Btn onClick={() => googleLogin()} className="font-bold w-2/4">Sign in with Google 🚀</Btn>
     );
 };
 
